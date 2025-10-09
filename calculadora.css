@@ -1,3 +1,7 @@
+body {
+    background-color: #222;
+}
+
 .menu_izquierda {
     position: fixed;
     left: 0;
@@ -90,67 +94,88 @@
 
 /* Solo en móvil el menú se oculta y se muestra con el botón */
 @media (max-width: 800px) {
+    body {
+        background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    }
     #menuBotones {
         display: none;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 0;
+        width: 100vw;
+        background: linear-gradient(90deg, #181718, #165f94);
+        position: fixed;
+        top: 54px;
+        left: 0;
+        z-index: 15;
+        padding: 16px 0 10px 0;
+        border-radius: 0 0 12px 12px;
     }
     .menu_izquierda.open #menuBotones {
         display: flex;
     }
-
+    .menu-toggle {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 20;
+        background: linear-gradient(135deg, #4e54c8, #8f94fb); /* Mismo color que los botones de opciones */
+        color: #fff;
+        border: none;
+        border-radius: 0 0 8px 0;
+        padding: 14px 24px;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        width: 100vw;
+    }
     .menu_izquierda {
         position: static;
         width: 100vw;
         height: auto;
-        padding: 10px 0;
+        background: none;
         box-shadow: none;
-        border-radius: 0;
-        background: linear-gradient(90deg, #181718, #165f94);
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
+        padding: 0;
+        display: block;
     }
-
     .menu_izquierda button {
-        width: auto;
-        height: 40px;
-        font-size: 15px;
-        margin-bottom: 0;
-        margin-right: 8px;
-        border-radius: 6px;
+        width: 96vw;
+        height: 44px;
+        font-size: 17px;
+        margin: 6px auto;
+        border-radius: 8px;
         padding: 0 12px;
     }
-
     .calculadora {
-        position: static;
+        position: fixed;
         left: 0;
-        top: 0;
-        width: 100vw;
-        height: auto;
-        min-height: 100vh;
+        top: 54px;
+        width: 100vw !important;
+        min-width: 100vw !important;
+        max-width: 100vw !important;
+        height: calc(100vh - 54px);
+        min-height: calc(100vh - 54px);
         border-radius: 0;
-        padding: 16px 6px 24px 6px;
+        padding: 12px 0 18px 0;
         box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        background: #222;
+        z-index: 1;
+        margin-left: 0 !important;
     }
 
     .calculadora input {
-        width: 98vw;
-        font-size: 22px;
-        height: 44px;
-        margin-bottom: 12px;
-        border-radius: 8px;
-        padding: 8px;
+        width: 94vw;
+        min-width: 94vw;
+        max-width: 94vw;
     }
 
     .botones-calc {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 6px;
-        width: 98vw;
-    }
-
-    .calculadora button {
-        height: 40px;
-        font-size: 18px;
-        border-radius: 8px;
+        width: 94vw;
+        min-width: 94vw;
+        max-width: 94vw;
     }
 }
