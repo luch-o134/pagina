@@ -8,6 +8,7 @@
     color: #fff;
     padding: 20px 10px;
     box-shadow: 2px 0 8px rgb(0, 0, 0, 0.1);
+    overflow-y: auto; /* Permite scroll solo en el menú si hay muchos botones */
 }
 
 .menu_izquierda button {
@@ -28,9 +29,7 @@
 }
 
 .calculadora {
-    position: absolute;
-    left: 180px; /* igual al ancho del menú */
-    top: 0;
+    margin-left: 180px; /* Deja espacio para el menú */
     width: calc(100vw - 180px);
     height: 100vh;
     box-sizing: border-box;
