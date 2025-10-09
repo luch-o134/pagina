@@ -1,0 +1,112 @@
+/* Reset y tipografía */
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2f2f2f 100%);
+    color: #fff;
+    min-height: 100vh;
+}
+
+/* centrar horizontalmente */
+.center { display:flex; justify-content:center; padding:40px 16px; }
+
+/* card */
+.card {
+    width:100%;
+    max-width:720px;
+    background: #fff;
+    color: #111;
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.45);
+}
+
+/* etiquetas y campos */
+.label { font-weight:700; margin-top:6px; display:block; color:#063; }
+.field, output {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+input[type="number"] {
+    flex:1;
+    padding:14px;
+    font-size:20px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+.output {
+    flex: 1;
+    padding: 14px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #fff;        /* igual fondo que el input */
+    color: #111;             /* igual color que el input */
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    min-height: 48px;        /* altura similar al input */
+    box-sizing: border-box;
+    text-align: left;        /* o 'right' si prefieres alinear a la derecha */
+}
+
+/* boton de moneda */
+.selector-btn { position: relative; display: inline-block; }
+.btn-currency {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 12px; border-radius:10px;
+    background:#071025; color:#fff; border:1px solid rgba(0,0,0,0.08);
+    cursor:pointer; font-weight:700;
+}
+
+/* dropdown: ahora aparece debajo del botón, ancho y alto aumentados */
+.dropdown {
+    position: absolute;
+    top: calc(100% + 8px); /* debajo del botón */
+    bottom: auto;
+    left: 50%;              /* centrar respecto al botón */
+    transform: translateX(-50%);
+    width: auto;            /* permitir min/max */
+    min-width: 360px;       /* ancho mínimo deseado */
+    max-width: 600px;       /* ancho máximo para pantallas grandes */
+    max-height: 360px;      /* mayor altura antes de aparecer el scroll */
+    overflow-y: auto;       /* scroll solo dentro del dropdown */
+    -webkit-overflow-scrolling: touch;
+    background: #fff;
+    color: #111;
+    border-radius: 8px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    display: none;
+    z-index: 999;
+}
+.dropdown.open { display: block; }
+
+/* lista con scroll seguro (ajusta internamente la altura si hace falta) */
+.lista-moneda {
+    padding: 8px;
+    max-height: 300px; /* altura útil para el scroll */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* scrollbar más visible (WebKit) */
+.lista-moneda::-webkit-scrollbar { width: 14px; }   
+.lista-moneda::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.18);
+    border-radius: 10px;
+    border: 3px solid #fff; /* crea separación visual */
+}
+.lista-moneda::-webkit-scrollbar-track { background: transparent; }
+
+.convertir {
+    background: linear-gradient(90deg, #823572, #3333FF);
+}
+
+/* responsive */
+@media (max-width:520px) {
+    .btn-currency { min-width:120px; font-size:14px; }
+    .card { padding:16px; }
+}

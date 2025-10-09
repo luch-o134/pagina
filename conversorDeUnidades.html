@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Conversor de monedas</title>
+    <link rel="stylesheet" href="conversorDeUnidades.css">
+</head>
+<body>
+    <div class="center">
+        <div class="card">
+            <div class="rate-info" id="rateInfo">Tipo de cambio medio del mercado</div>
+
+            <label class="label">Cantidad</label>
+            <div class="field">
+                <input id="amount" type="number" value="1000" min="0" step="any" />
+                <div class="selector-btn">
+                    <button id="btnFrom" class="btn-currency" aria-haspopup="listbox" aria-expanded="false">
+                        <span id="fromFlag">🇨🇱</span>&nbsp;<span id="fromText">CLP</span>&nbsp;▾
+                    </button>
+                    <div id="dropdownFrom" class="dropdown" aria-hidden="true">
+                        <div id="listFrom" class="lista-moneda" role="listbox"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swap-row">
+                <button id="swapBtn" class="swap" title="Intercambiar">↕</button>
+            </div>
+
+            <label class="label">Convertido a</label>
+            <div class="field">
+                <div class="output" id="output">0,00</div>
+                <div class="selector-btn">
+                    <button id="btnTo" class="btn-currency" aria-haspopup="listbox" aria-expanded="false">
+                        <span id="toFlag">🇪🇺</span>&nbsp;<span id="toText">EUR</span>&nbsp;▾
+                    </button>
+                    <div id="dropdownTo" class="dropdown" aria-hidden="true">
+                        <div id="listTo" class="lista-moneda" role="listbox"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="convertBtn" class="convertir">Convertir</button>
+                <div id="message" class="muted"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+/* monedas con bandera (añade más si quieres) */
+const monedas = [
+    { code:'USD', name:'Dólar estadounidense', flag:'🇺🇸' },
+    { code:'EUR', name:'Euro', flag:'🇪🇺' },
+    { code:'GBP', name:'Libra esterlina', flag:'🇬🇧' },
+    { code:'JPY', name:'Yen japonés', flag:'🇯🇵' },
+    { code:'CLP', name:'Peso chileno', flag:'🇨🇱' },
+    { code:'MXN', name:'Peso mexicano', flag:'🇲🇽' },
+    { code:'BRL', name:'Real brasileño', flag:'🇧🇷' },
+    { code:'COP', name:'Peso colombiano', flag:'🇨🇴' },
+    { code:'PEN', name:'Sol peruano', flag:'🇵🇪' },
+    { code:'ARS', name:'Peso argentino', flag:'🇦🇷' }
+];
+
+const btnFrom = document.getElementById('btnFrom');
+const btnTo = document.getElementById('btnTo');
+const dropdownFrom = document.getElementById('dropdownFrom');
+const dropdownTo = document.getElementById('dropdownTo');
+const listFrom = document.getElementById('listFrom');
+const listTo = document.getElementById('listTo');
+const fromText = document.getElementById('fromText');
+const toText = document.getElementById('toText');
+const fromFlag = document.getElementById('fromFlag');
+const toFlag = document.getElementById('toFlag');
+const amountInput = document.getElementById('amount');
+const convertBtn = document.getElementById('convertBtn');
+const output = document.getElementById('output');
+const rateInfo = document.getElementById('rateInfo');
+const message = document.getElementById('message');
+const swapBtn = document.getElementById('swapBtn');
+
+let fromCode = 'CLP';
+let toCode = 'EUR';
+
+function renderList(container) {
+    container.innerHTML = monedas.map(m =>
+        `<div class="moneda-item" tabindex="0" data-code="${m.code}" data-flag="${m.flag}">
+            <strong>${m.code}</strong> — ${m.name}
+         </div>`
+    ).join('');
+}
+
+/* abrir dropdown (aparece arriba; CSS controla posición). list tiene scroll por CSS */
+function openDropdown(drop, btn) {
+    // llenar lista si está vacía
+    const list = drop.querySelector('.lista-moneda');
+    if (list && list.children.length === 0) renderList(list);
+
+    // igualar ancho del dropdown al botón
+    drop.style.minWidth = btn.offsetWidth + 'px';
+    drop.classList.add('open');
+    drop.setAttribute('aria-hidden','false');
+    btn.setAttribute('aria-expanded','true');
+
+    // opcional: mostrar desde arriba (scrollTop = list.scrollHeight)
+    // list.scrollTop = list.scrollHeight; // si quieres que aparezca "subiendo"
+}
+
+function closeDropdown(drop, btn) {
+    drop.classList.remove('open');
+    drop.setAttribute('aria-hidden','true');
+    if (btn) btn.setAttribute('aria-expanded','false');
+}
+
+btnFrom.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (dropdownFrom.classList.contains('open')) closeDropdown(dropdownFrom, btnFrom);
+    else { closeDropdown(dropdownTo, btnTo); openDropdown(dropdownFrom, btnFrom); }
+});
+btnTo.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (dropdownTo.classList.contains('open')) closeDropdown(dropdownTo, btnTo);
+    else { closeDropdown(dropdownFrom, btnFrom); openDropdown(dropdownTo, btnTo); }
+});
+
+// cerrar al clic fuera
+document.addEventListener('click', (e) => {
+    if (!btnFrom.contains(e.target) && !dropdownFrom.contains(e.target)) closeDropdown(dropdownFrom, btnFrom);
+    if (!btnTo.contains(e.target) && !dropdownTo.contains(e.target)) closeDropdown(dropdownTo, btnTo);
+});
+
+// seleccionar con delegación
+listFrom.addEventListener('click', (e) => {
+    const item = e.target.closest('.moneda-item');
+    if (!item) return;
+    fromCode = item.dataset.code;
+    fromFlag.textContent = item.dataset.flag;
+    fromText.textContent = fromCode;
+    closeDropdown(dropdownFrom, btnFrom);
+});
+listTo.addEventListener('click', (e) => {
+    const item = e.target.closest('.moneda-item');
+    if (!item) return;
+    toCode = item.dataset.code;
+    toFlag.textContent = item.dataset.flag;
+    toText.textContent = toCode;
+    closeDropdown(dropdownTo, btnTo);
+});
+
+// permitir selección con Enter cuando el item está enfocado
+listFrom.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const item = document.activeElement.closest && document.activeElement.closest('.moneda-item');
+        if (item) { item.click(); }
+    }
+});
+listTo.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const item = document.activeElement.closest && document.activeElement.closest('.moneda-item');
+        if (item) { item.click(); }
+    }
+});
+
+// swap
+swapBtn.addEventListener('click', () => {
+    const aCode = fromCode; fromCode = toCode; toCode = aCode;
+    const aFlag = fromFlag.textContent; fromFlag.textContent = toFlag.textContent; toFlag.textContent = aFlag;
+    fromText.textContent = fromCode; toText.textContent = toCode;
+});
+
+// Convertir usando open.er-api.com (público) y fallback a frankfurter.app
+async function convertir() {
+    const amount = parseFloat(amountInput.value);
+    if (isNaN(amount) || amount < 0) { message.textContent = 'Cantidad inválida'; return; }
+    if (fromCode === toCode) { output.textContent = `${amount.toLocaleString()} ${fromCode}`; return; }
+
+    message.textContent = '';
+    output.textContent = 'Convirtiendo...';
+
+    try {
+        // 1) open.er-api.com (no requiere clave)
+        const url = `https://open.er-api.com/v6/latest/${encodeURIComponent(fromCode)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' open.er-api.com');
+        const data = await res.json();
+        console.log('open.er-api.com:', data);
+
+        if (data && (data.result === 'success' || data.result === 'ok') && data.rates && typeof data.rates[toCode] === 'number') {
+            const rate = Number(data.rates[toCode]);
+            const value = rate * amount;
+            output.textContent = `${value.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6})} ${toCode}`;
+            rateInfo.textContent = `1 ${fromCode} = ${rate} ${toCode}`;
+            return;
+        }
+
+        // 2) Fallback: frankfurter.app (sin clave)
+        const url2 = `https://api.frankfurter.app/latest?from=${encodeURIComponent(fromCode)}&to=${encodeURIComponent(toCode)}`;
+        const res2 = await fetch(url2);
+        if (!res2.ok) throw new Error('HTTP ' + res2.status + ' frankfurter.app');
+        const data2 = await res2.json();
+        console.log('frankfurter.app:', data2);
+
+        if (data2 && data2.rates && typeof data2.rates[toCode] === 'number') {
+            const rate = Number(data2.rates[toCode]);
+            const value = rate * amount;
+            output.textContent = `${value.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6})} ${toCode}`;
+            rateInfo.textContent = `1 ${fromCode} = ${rate} ${toCode}`;
+            return;
+        }
+
+        console.error('Ninguna API devolvió una tasa válida', { open: data, frankfurter: data2 });
+        output.textContent = 'No se pudo obtener la tasa (revisa la consola)';
+        message.textContent = 'Si usas file://, abre la página con http://localhost:8000 para evitar problemas CORS.';
+    } catch (err) {
+        console.error(err);
+        output.textContent = 'Error de red';
+        message.textContent = 'Revisa la consola';
+    }
+}
+
+convertBtn.addEventListener('click', convertir);
+
+// inicializar
+fromText.textContent = fromCode; toText.textContent = toCode;
+fromFlag.textContent = '🇨🇱'; toFlag.textContent = '🇪🇺';
+renderList(listFrom);
+renderList(listTo);
+</script>
+</body>
+</html>
