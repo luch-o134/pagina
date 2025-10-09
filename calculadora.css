@@ -81,18 +81,23 @@
     transform: scale(1.05);
 }
 
+/* El menú SIEMPRE visible en PC */
 #menuBotones {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 10px;
 }
 
-.menu_izquierda.open #menuBotones {
-    display: flex;
-}
-
+/* Solo en móvil el menú se oculta y se muestra con el botón */
 @media (max-width: 800px) {
+    #menuBotones {
+        display: none;
+    }
+    .menu_izquierda.open #menuBotones {
+        display: flex;
+    }
+
     .menu_izquierda {
         position: static;
         width: 100vw;
@@ -100,7 +105,7 @@
         padding: 10px 0;
         box-shadow: none;
         border-radius: 0;
-        background-color: linear-gradient(90deg, #181718, #165f94);
+        background: linear-gradient(90deg, #181718, #165f94);
         display: flex;
         flex-direction: row;
         justify-content: space-around;
