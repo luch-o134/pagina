@@ -1,0 +1,152 @@
+.menu_izquierda {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 180px;
+    height: 100vh;
+    background: linear-gradient(90deg, #181718, #165f94);
+    color: #fff;
+    padding: 20px 10px;
+    box-shadow: 2px 0 8px rgb(0, 0, 0, 0.1);
+}
+
+.menu_izquierda button {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    background: linear-gradient(90deg, #823572, #3333FF);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.8s;
+}
+
+.menu_izquierda button:hover {
+    background: #7484F7;
+}
+
+.calculadora {
+    position: absolute;
+    left: 180px; /* igual al ancho del menú */
+    top: 0;
+    width: calc(100vw - 180px);
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    background: #222;
+    border-radius: 0 16px 16px 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    padding: 0 20px 20px 20px; /* solo padding lateral e inferior */
+}
+
+.calculadora input {
+    width: 90%;
+    height: 50px;
+    font-size: 28px;
+    margin-bottom: 18px;
+    text-align: right;
+    border-radius: 10px;
+    border: 2px solid #165f94;
+    padding: 10px;
+    background: #f3f3f3;
+}
+
+.botones-calc {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+}
+
+.calculadora button {
+    width: 100%;
+    height: 48px;
+    font-size: 20px;
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.3s, transform 0.2s;
+}
+
+.calculadora button:hover {
+    background: linear-gradient(135deg, #5f6ef7, #a7b3ff);
+    transform: scale(1.05);
+}
+
+#menuBotones {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.menu_izquierda.open #menuBotones {
+    display: flex;
+}
+
+@media (max-width: 800px) {
+    .menu_izquierda {
+        position: static;
+        width: 100vw;
+        height: auto;
+        padding: 10px 0;
+        box-shadow: none;
+        border-radius: 0;
+        background-color: linear-gradient(90deg, #181718, #165f94);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .menu_izquierda button {
+        width: auto;
+        height: 40px;
+        font-size: 15px;
+        margin-bottom: 0;
+        margin-right: 8px;
+        border-radius: 6px;
+        padding: 0 12px;
+    }
+
+    .calculadora {
+        position: static;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: auto;
+        min-height: 100vh;
+        border-radius: 0;
+        padding: 16px 6px 24px 6px;
+        box-shadow: none;
+    }
+
+    .calculadora input {
+        width: 98vw;
+        font-size: 22px;
+        height: 44px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        padding: 8px;
+    }
+
+    .botones-calc {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        width: 98vw;
+    }
+
+    .calculadora button {
+        height: 40px;
+        font-size: 18px;
+        border-radius: 8px;
+    }
+}
