@@ -5,49 +5,135 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Conversor de monedas</title>
     <link rel="stylesheet" href="conversorDeUnidades.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
 </head>
 <body>
+    <div class="center" style="margin-bottom:18px;">
+        <button id="btnSalirMenu" class="btn-salir-menu">
+            <i class="fa-solid fa-arrow-left"></i> Volver al menú principal
+        </button>
+    </div>
+    <div class="textoTipoDeConversion">
+        <h1>Seleccione el tipo que quiere convertir</h1>
+    </div>
+    <div class="center">
+        <select id="tipoConversion" style="font-size:18px; margin-bottom:24px;">
+            <option value="moneda">Moneda</option>
+            <option value="grados">Grados (°C ↔ °F)</option>
+            <option value="memoria">Memoria (MB, GB, TB)</option>
+            <option value="longitud">Longitud (km, m, cm, mm)</option>
+        </select>
+    </div>
     <div class="center">
         <div class="card">
-            <div class="rate-info" id="rateInfo">Tipo de cambio medio del mercado</div>
+            <!-- Moneda -->
+            <div id="monedaCampos">
+                <div class="rate-info" id="rateInfo">TIPO DE CAMBIO DE MONEDAS</div>
 
-            <label class="label">Cantidad</label>
-            <div class="field">
-                <input id="amount" type="number" value="1000" min="0" step="any" />
-                <div class="selector-btn">
-                    <button id="btnFrom" class="btn-currency" aria-haspopup="listbox" aria-expanded="false">
-                        <span id="fromFlag">🇨🇱</span>&nbsp;<span id="fromText">CLP</span>&nbsp;▾
-                    </button>
-                    <div id="dropdownFrom" class="dropdown" aria-hidden="true">
-                        <div id="listFrom" class="lista-moneda" role="listbox"></div>
+                <label class="label">Cantidad</label>
+                <div class="field">
+                    <input id="amount" type="number" value="1000" min="0" step="any" />
+                    <div class="selector-btn">
+                        <button id="btnFrom" class="btn-currency" aria-haspopup="listbox" aria-expanded="false">
+                            <span id="fromFlag">🇨🇱</span>&nbsp;<span id="fromText">CLP</span>&nbsp;▾
+                        </button>
+                        <div id="dropdownFrom" class="dropdown" aria-hidden="true">
+                            <div id="listFrom" class="lista-moneda" role="listbox"></div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="swap-row">
+                    <button id="swapBtn" class="swap" title="Intercambiar"><i class="fa-solid fa-rotate-right"></i></button>
+                </div>
+
+                <label class="label">Convertido a</label>
+                <div class="field">
+                    <div class="output" id="output">0,00</div>
+                    <div class="selector-btn">
+                        <button id="btnTo" class="btn-currency" aria-haspopup="listbox" aria-expanded="false">
+                            <span id="toFlag">🇪🇺</span>&nbsp;<span id="toText">EUR</span>&nbsp;▾
+                        </button>
+                        <div id="dropdownTo" class="dropdown" aria-hidden="true">
+                            <div id="listTo" class="lista-moneda" role="listbox"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="convertBtn" class="convertir">Convertir</button>
+                    <div id="message" class="muted"></div>
                 </div>
             </div>
 
-            <div class="swap-row">
-                <button id="swapBtn" class="swap" title="Intercambiar">↕</button>
-            </div>
-
-            <label class="label">Convertido a</label>
-            <div class="field">
-                <div class="output" id="output">0,00</div>
-                <div class="selector-btn">
-                    <button id="btnTo" class="btn-currency" aria-haspopup="listbox" aria-expanded="false">
-                        <span id="toFlag">🇪🇺</span>&nbsp;<span id="toText">EUR</span>&nbsp;▾
-                    </button>
-                    <div id="dropdownTo" class="dropdown" aria-hidden="true">
-                        <div id="listTo" class="lista-moneda" role="listbox"></div>
-                    </div>
+            <!-- Grados -->
+            <div id="gradosCampos" style="display:none;">
+                <label class="label">Cantidad</label>
+                <input id="gradosInput" type="number" value="0" step="any" />
+                <div class="field">
+                    <select id="gradosDe">
+                        <option value="C">Celsius (°C)</option>
+                        <option value="F">Fahrenheit (°F)</option>
+                    </select>
+                    <span style="margin:0 12px;">→</span>
+                    <select id="gradosA">
+                        <option value="C">Celsius (°C)</option>
+                        <option value="F">Fahrenheit (°F)</option>
+                    </select>
                 </div>
+                <div class="output" id="gradosOutput">0,00</div>
+                <button id="convertirGradosBtn" class="convertir">Convertir</button>
             </div>
 
-            <div class="actions">
-                <button id="convertBtn" class="convertir">Convertir</button>
-                <div id="message" class="muted"></div>
+            <!-- Memoria -->
+            <div id="memoriaCampos" style="display:none;">
+                <label class="label">Cantidad</label>
+                <input id="memoriaInput" type="number" value="1" step="any" />
+                <div class="field">
+                    <select id="memoriaDe">
+                        <option value="B">Bytes (B)</option>
+                        <option value="KB">Kilobytes (KB)</option>
+                        <option value="MB">Megabytes (MB)</option>
+                        <option value="GB">Gigabytes (GB)</option>
+                        <option value="TB">Terabytes (TB)</option>
+                    </select>
+                    <span style="margin:0 12px;">→</span>
+                    <select id="memoriaA">
+                        <option value="B">Bytes (B)</option>
+                        <option value="KB">Kilobytes (KB)</option>
+                        <option value="MB">Megabytes (MB)</option>
+                        <option value="GB">Gigabytes (GB)</option>
+                        <option value="TB">Terabytes (TB)</option>
+                    </select>
+                </div>
+                <div class="output" id="memoriaOutput">0,00</div>
+                <button id="convertirMemoriaBtn" class="convertir">Convertir</button>
+            </div>
+
+            <!-- Longitud -->
+            <div id="longitudCampos" style="display:none;">
+                <label class="label">Cantidad</label>
+                <input id="longitudInput" type="number" value="1" step="any" />
+                <div class="field">
+                    <select id="longitudDe">
+                        <option value="mm">Milímetros (mm)</option>
+                        <option value="cm">Centímetros (cm)</option>
+                        <option value="m">Metros (m)</option>
+                        <option value="km">Kilómetros (km)</option>
+                    </select>
+                    <span style="margin:0 12px;">→</span>
+                    <select id="longitudA">
+                        <option value="mm">Milímetros (mm)</option>
+                        <option value="cm">Centímetros (cm)</option>
+                        <option value="m">Metros (m)</option>
+                        <option value="km">Kilómetros (km)</option>
+                    </select>
+                </div>
+                <div class="output" id="longitudOutput">0,00</div>
+                <button id="convertirLongitudBtn" class="convertir">Convertir</button>
             </div>
         </div>
     </div>
-
 <script>
 /* monedas con bandera (añade más si quieres) */
 const monedas = [
@@ -60,7 +146,48 @@ const monedas = [
     { code:'BRL', name:'Real brasileño', flag:'🇧🇷' },
     { code:'COP', name:'Peso colombiano', flag:'🇨🇴' },
     { code:'PEN', name:'Sol peruano', flag:'🇵🇪' },
-    { code:'ARS', name:'Peso argentino', flag:'🇦🇷' }
+    { code:'ARS', name:'Peso argentino', flag:'🇦🇷' },
+    { code:'CAD', name:'Dólar canadiense', flag:'🇨🇦' },
+    { code:'AUD', name:'Dólar australiano', flag:'🇦🇺' },
+    { code:'CHF', name:'Franco suizo', flag:'🇨🇭' },
+    { code:'CNY', name:'Yuan chino', flag:'🇨🇳' },
+    { code:'INR', name:'Rupia india', flag:'🇮🇳' },
+    { code:'RUB', name:'Rublo ruso', flag:'🇷🇺' },
+    { code:'KRW', name:'Won surcoreano', flag:'🇰🇷' },
+    { code:'TRY', name:'Lira turca', flag:'🇹🇷' },
+    { code:'ZAR', name:'Rand sudafricano', flag:'🇿🇦' },
+    { code:'NZD', name:'Dólar neozelandés', flag:'🇳🇿' },
+    { code:'SGD', name:'Dólar de Singapur', flag:'🇸🇬' },
+    { code:'HKD', name:'Dólar de Hong Kong', flag:'🇭🇰' },
+    { code:'SEK', name:'Corona sueca', flag:'🇸🇪' },
+    { code:'NOK', name:'Corona noruega', flag:'🇳🇴' },
+    { code:'DKK', name:'Corona danesa', flag:'🇩🇰' },
+    { code:'PLN', name:'Zloty polaco', flag:'🇵🇱' },
+    { code:'CZK', name:'Corona checa', flag:'🇨🇿' },
+    { code:'HUF', name:'Forinto húngaro', flag:'🇭🇺' },
+    { code:'ILS', name:'Shekel israelí', flag:'🇮🇱' },
+    { code:'SAR', name:'Riyal saudí', flag:'🇸🇦' },
+    { code:'AED', name:'Dirham de EAU', flag:'🇦🇪' },
+    { code:'EGP', name:'Libra egipcia', flag:'🇪🇬' },
+    { code:'THB', name:'Baht tailandés', flag:'🇹🇭' },
+    { code:'IDR', name:'Rupia indonesia', flag:'🇮🇩' },
+    { code:'MYR', name:'Ringgit malayo', flag:'🇲🇾' },
+    { code:'PHP', name:'Peso filipino', flag:'🇵🇭' },
+    { code:'VND', name:'Dong vietnamita', flag:'🇻🇳' },
+    { code:'PKR', name:'Rupia pakistaní', flag:'🇵🇰' },
+    { code:'UAH', name:'Grivna ucraniana', flag:'🇺🇦' },
+    { code:'BGN', name:'Lev búlgaro', flag:'🇧🇬' },
+    { code:'RON', name:'Leu rumano', flag:'🇷🇴' },
+    { code:'HRK', name:'Kuna croata', flag:'🇭🇷' },
+    { code:'MAD', name:'Dirham marroquí', flag:'🇲🇦' },
+    { code:'DZD', name:'Dinar argelino', flag:'🇩🇿' },
+    { code:'NGN', name:'Naira nigeriana', flag:'🇳🇬' },
+    { code:'KES', name:'Chelín keniano', flag:'🇰🇪' },
+    { code:'TZS', name:'Chelín tanzano', flag:'🇹🇿' },
+    { code:'UGX', name:'Chelín ugandés', flag:'🇺🇬' },
+    { code:'GHS', name:'Cedi ghanés', flag:'🇬🇭' },
+    { code:'XOF', name:'Franco CFA oeste', flag:'🇸🇳' },
+    { code:'XAF', name:'Franco CFA centro', flag:'🇨🇲' }
 ];
 
 const btnFrom = document.getElementById('btnFrom');
@@ -79,6 +206,13 @@ const output = document.getElementById('output');
 const rateInfo = document.getElementById('rateInfo');
 const message = document.getElementById('message');
 const swapBtn = document.getElementById('swapBtn');
+const tipoConversion = document.getElementById('tipoConversion');
+const card = document.querySelector('.card');
+
+const monedaCampos = document.getElementById('monedaCampos');
+const gradosCampos = document.getElementById('gradosCampos');
+const memoriaCampos = document.getElementById('memoriaCampos');
+const longitudCampos = document.getElementById('longitudCampos');
 
 let fromCode = 'CLP';
 let toCode = 'EUR';
@@ -221,11 +355,81 @@ async function convertir() {
 
 convertBtn.addEventListener('click', convertir);
 
+tipoConversion.addEventListener('change', function() {
+    const tipo = tipoConversion.value;
+    monedaCampos.style.display = tipo === 'moneda' ? '' : 'none';
+    gradosCampos.style.display = tipo === 'grados' ? '' : 'none';
+    memoriaCampos.style.display = tipo === 'memoria' ? '' : 'none';
+    longitudCampos.style.display = tipo === 'longitud' ? '' : 'none';
+});
+
+// Ejemplo de función para convertir grados
+function convertirGrados(valor, de, a) {
+    if (de === 'C' && a === 'F') return valor * 9/5 + 32;
+    if (de === 'F' && a === 'C') return (valor - 32) * 5/9;
+    return valor;
+}
+
+// Ejemplo de función para convertir memoria
+function convertirMemoria(valor, de, a) {
+    const unidades = { B:1, KB:1024, MB:1024**2, GB:1024**3, TB:1024**4 };
+    return valor * (unidades[de] / unidades[a]);
+}
+
+// Ejemplo de función para convertir longitud
+function convertirLongitud(valor, de, a) {
+    const unidades = { mm:1, cm:10, m:1000, km:1000000 };
+    return valor * (unidades[de] / unidades[a]);
+}
+
+// Conversión de grados
+document.getElementById('convertirGradosBtn').onclick = function() {
+    const valor = parseFloat(document.getElementById('gradosInput').value);
+    const de = document.getElementById('gradosDe').value;
+    const a = document.getElementById('gradosA').value;
+    if (isNaN(valor)) {
+        document.getElementById('gradosOutput').textContent = 'Valor inválido';
+        return;
+    }
+    let resultado = convertirGrados(valor, de, a);
+    document.getElementById('gradosOutput').textContent = resultado.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6}) + ' ' + a;
+};
+
+// Conversión de memoria
+document.getElementById('convertirMemoriaBtn').onclick = function() {
+    const valor = parseFloat(document.getElementById('memoriaInput').value);
+    const de = document.getElementById('memoriaDe').value;
+    const a = document.getElementById('memoriaA').value;
+    if (isNaN(valor)) {
+        document.getElementById('memoriaOutput').textContent = 'Valor inválido';
+        return;
+    }
+    let resultado = convertirMemoria(valor, de, a);
+    document.getElementById('memoriaOutput').textContent = resultado.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6}) + ' ' + a;
+};
+
+// Conversión de longitud
+document.getElementById('convertirLongitudBtn').onclick = function() {
+    const valor = parseFloat(document.getElementById('longitudInput').value);
+    const de = document.getElementById('longitudDe').value;
+    const a = document.getElementById('longitudA').value;
+    if (isNaN(valor)) {
+        document.getElementById('longitudOutput').textContent = 'Valor inválido';
+        return;
+    }
+    let resultado = convertirLongitud(valor, de, a);
+    document.getElementById('longitudOutput').textContent = resultado.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6}) + ' ' + a;
+};
+
 // inicializar
 fromText.textContent = fromCode; toText.textContent = toCode;
 fromFlag.textContent = '🇨🇱'; toFlag.textContent = '🇪🇺';
 renderList(listFrom);
 renderList(listTo);
+
+document.getElementById('btnSalirMenu').onclick = function() {
+    window.location.href = 'index.html';
+};
 </script>
 </body>
 </html>
