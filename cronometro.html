@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronómetro</title>
+    <link rel="stylesheet" href="cronometro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- ...estilos internos si los tienes... -->
+</head>
+<body>
+    <button id="btnMostrarMenu" class="btn-mostrar-menu" style="position: absolute; top: 10px; left: 10px; background: linear-gradient(90deg, #4e54c8, #8bbd4c); color: #fff; border: none; border-radius: 8px; padding: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-bars"></i> Menú
+    </button>
+
+    <nav class="menu_lateral" id="menuLateral">
+        <div class="espacio-menu"></div>
+        <button onclick="window.location.href='index.html'" style="background: linear-gradient(90deg, #4e54c8, #8bbd4c); color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-house"></i> Menú principal
+        </button>
+        <button onclick="window.location.href='calculadora.html'" style="background: linear-gradient(90deg, #4e54c8, #8bbd4c); color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-calculator"></i> Calculadora
+        </button>
+        <button onclick="window.location.href='conversorDeUnidades.html'" style="background: linear-gradient(90deg, #4e54c8, #8bbd4c); color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-arrows-rotate"></i> Conversor de Unidades
+        </button>
+        <button onclick="window.location.href='contadorDePalabras.html'" style="background: linear-gradient(90deg, #4e54c8, #8bbd4c); color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-chart-gantt"></i> Contador de Palabras
+        </button>
+    </nav>
+
+    <div style="margin-top: 90px;">
+        <div class="cronometro-container">
+            <div class="tiempo" id="tiempo">00:00:00</div>
+            <div class="botones-crono">
+                <button id="iniciar">Iniciar</button>
+                <button id="pausar">Pausar</button>
+                <button id="reiniciar">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let segundos = 0;
+        let minutos = 0;
+        let horas = 0;
+        let intervalo = null;
+        let enMarcha = false;
+
+        function actualizarCronometro() {
+            const tiempo = document.getElementById('tiempo');
+            const h = String(horas).padStart(2, '0');
+            const m = String(minutos).padStart(2, '0');
+            const s = String(segundos).padStart(2, '0');
+            tiempo.textContent = `${h}:${m}:${s}`;
+        }
+
+        function iniciar() {
+            if (!enMarcha) {
+                intervalo = setInterval(() => {
+                    segundos++;
+                    if (segundos === 60) {
+                        segundos = 0;
+                        minutos++;
+                    }
+                    if (minutos === 60) {
+                        minutos = 0;
+                        horas++;
+                    }
+                    actualizarCronometro();
+                }, 1000);
+                enMarcha = true;
+            }
+        }
+
+        function pausar() {
+            clearInterval(intervalo);
+            enMarcha = false;
+        }
+
+        function reiniciar() {
+            clearInterval(intervalo);
+            segundos = 0;
+            minutos = 0;
+            horas = 0;
+            enMarcha = false;
+            actualizarCronometro();
+        }
+
+        document.getElementById('iniciar').onclick = iniciar;
+        document.getElementById('pausar').onclick = pausar;
+        document.getElementById('reiniciar').onclick = reiniciar;
+
+        actualizarCronometro();
+
+        const btnMostrarMenu = document.getElementById('btnMostrarMenu');
+        const menuLateral = document.getElementById('menuLateral');
+
+        btnMostrarMenu.onclick = function() {
+            menuLateral.classList.toggle('open');
+            if (menuLateral.classList.contains('open')) {
+                menuLateral.style.transform = 'translateX(0)';
+            } else {
+                menuLateral.style.transform = 'translateX(-100%)';
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>contador de palabras</title>
+    <link rel="stylesheet" href="contadorDePalabras.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+    <!-- Botón para mostrar el menú, fuera del nav -->
+    <button id="btnMostrarMenu" class="btn-mostrar-menu">
+        <i class="fa-solid fa-bars"></i> Menú
+    </button>
+
+    <!-- Menú lateral -->
+    <nav class="menu_lateral" id="menuLateral">
+        <button onclick="window.location.href='index.html'">
+            <i class="fa-solid fa-house"></i> Menú principal
+        </button>
+        <button onclick="window.location.href='calculadora.html'">
+            <i class="fa-solid fa-calculator"></i> Calculadora
+        </button>
+        <button onclick="window.location.href='conversorDeUnidades.html'">
+            <i class="fa-solid fa-arrows-rotate"></i> Conversor de Unidades
+        </button>
+        <button onclick="window.location.href='cronometro.html'">
+            <i class="fa-solid fa-stopwatch-20"></i> Cronometro
+        </button>
+    </nav>
+    <div class="contenido-principal">
+        <!-- Contador de palabras simple -->
+        <div class="contador-palabras">
+            <label for="textoContador">Escribe tu texto:</label>
+            <textarea id="textoContador" rows="1"></textarea>
+            <div id="resultadoContador">
+                Tus N° De Palabras Son: 0 | Tus N° De Caracteres Son: 0
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const textarea = document.getElementById('textoContador');
+    const resultado = document.getElementById('resultadoContador');
+
+    function ajustarAltura() {
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    }
+
+    textarea.addEventListener('input', function() {
+        ajustarAltura();
+        const texto = textarea.value.trim();
+        const palabras = texto === "" ? 0 : texto.split(/\s+/).length;
+        const caracteres = texto.length;
+        resultado.textContent = `Palabras: ${palabras} | Caracteres: ${caracteres}`;
+    });
+
+    // Ajusta la altura al cargar
+    ajustarAltura();
+
+    const btnMostrarMenu = document.getElementById('btnMostrarMenu');
+    const menuLateral = document.getElementById('menuLateral');
+
+    btnMostrarMenu.onclick = function() {
+        menuLateral.classList.toggle('open');
+    };
+    </script>
+</body>
+</html>

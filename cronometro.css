@@ -1,0 +1,150 @@
+body {
+    background: linear-gradient(135deg, #181718 0%, #165f94 100%);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.cronometro-container {
+    background: rgba(0,0,0,0.4);
+    padding: 32px 24px;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    text-align: center;
+}
+.tiempo {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+}
+.botones-crono button {
+    background: linear-gradient(90deg, #4e54c8, #8bbd4c);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+.botones-crono button:hover {
+    background: linear-gradient(90deg, #8bbd4c, #4e54c8);
+    transform: scale(1.05);
+}
+@media (max-width: 800px) {
+    html, body {
+        overflow: hidden;
+        height: 100vh;
+    }
+    .menu_lateral {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        gap: 18px;
+        padding: 24px 10px;
+        padding-top: 80px; /* Aumenta este valor para bajar los botones */
+        background: linear-gradient(90deg, #181718, #165f94);
+        z-index: 20;
+        box-shadow: none;
+        border-radius: 0;
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s, opacity 0.3s;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .menu_lateral.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .btn-mostrar-menu {
+        display: flex;
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 30;
+        background: linear-gradient(90deg, #4e54c8, #8bbd4c);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 22px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        align-items: center;
+        gap: 10px;
+    }
+    .cronometro-container {
+        margin-top: 70px;
+        padding: 18px 6px;
+    }
+    .tiempo {
+        font-size: 2.2rem;
+    }
+    .botones-crono button {
+        font-size: 1rem;
+        padding: 10px 16px;
+        margin: 0 4px;
+    }
+    .espacio-menu {
+        height: 5px; /* Ajusta este valor para bajar los botones */
+        width: 100%;
+    }
+}
+/* Menú horizontal arriba SIEMPRE visible en escritorio */
+.menu_lateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    background: linear-gradient(90deg, #181718, #165f94);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 18px;
+    padding: 18px 0;
+    z-index: 20;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border-radius: 0;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+}
+
+/* Menú vertical lateral solo en móvil y controlado por .open */
+@media (max-width: 800px) {
+    .menu_lateral {
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        padding: 24px 10px;
+        gap: 18px;
+        justify-content: flex-start;
+        box-shadow: none;
+        border-radius: 0;
+        background: linear-gradient(90deg, #181718, #165f94);
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s, opacity 0.3s;
+    }
+    .menu_lateral.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
